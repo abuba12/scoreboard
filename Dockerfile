@@ -1,5 +1,7 @@
 FROM node:14
 
+RUN mkdir /data
+
 WORKDIR /app
 
 COPY package*.json ./

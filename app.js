@@ -1,6 +1,9 @@
 "use strict"
 
 const PORT = 8080
+const DATA_PATH = "/data/scores.json"
+
+const fs = require("fs")
 
 const express = require('express')
 const app = module.exports = express()
@@ -9,6 +12,11 @@ app.use(express.json())
 app.use(require('cors')())
 
 var scores = []
+
+if(fs.existsSync(DATA_PATH))
+{
+    scores = JSON.parse( fs.readFileSync(DATA_PATH) )
+}
 
 app.get('/',(req,res)=>{
     res.json(scores)
@@ -29,6 +37,7 @@ app.post('/score',(req,res)=>{
         scores = scores.sort((first,second)=>{
             return second.score - first.score
         })
+        fs.writeFile(DATA_PATH, JSON.stringify(scores), (err)=>{})
         res.sendStatus(200)
     }
     else

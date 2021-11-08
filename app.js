@@ -6,6 +6,7 @@ const express = require('express')
 const app = module.exports = express()
 app.set("x-powered-by",false)
 app.use(express.json())
+app.use(require('cors')())
 
 var scores = []
 
